@@ -1,0 +1,15 @@
+# Simple Web Scraping
+
+from bs4 import BeautifulSoup
+import requests
+
+url = "https://www.goodreads.com/quotes"
+
+response = requests.get(url)
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+element = soup.find(class_ = 'quoteText')
+
+print(element.text.strip())
+
