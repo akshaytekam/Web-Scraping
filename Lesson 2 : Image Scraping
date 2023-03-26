@@ -1,0 +1,18 @@
+from bs4 import BeautifulSoup
+import requests
+
+url = 'https://en.wikipedia.org/wiki/OpenAI'
+
+response = requests.get(url)
+html_content = response.text
+
+soup = BeautifulSoup(html_content, 'html.parser')
+
+img_element = soup.find('img', class_='thumbimage')
+
+img_url = img_element['src']
+
+img_response = requests.get('https:'+img_url)
+
+with open('ceo_logo.png', 'wb') as f:
+    f.write(img_response.content)
