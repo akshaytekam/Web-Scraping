@@ -1,0 +1,36 @@
+import requests
+from bs4 import BeautifulSoup
+import time
+
+url = 'https://www.flipkart.com/sony-alpha-ilce-6100l-aps-c-mirrorless-camera-16-50-mm-power-zoom-lens-featuring-eye-af-4k-movie-recording/p/itmdc3e60ee35fb1?pid=CAMFM67HBBUJWA9Y&lid=LSTCAMFM67HBBUJWA9YK7N4VT&marketplace=FLIPKART&store=jek%2Fp31%2Ftrv&srno=b_1_1&otracker=hp_omu_Best%2Bof%2BElectronics_1_3.dealCard.OMU_Q5LU1U8PHMK6_3&otracker1=hp_omu_PINNED_neo%2Fmerchandising_Best%2Bof%2BElectronics_NA_dealCard_cc_1_NA_view-all_3&fm=neo%2Fmerchandising&iid=fe8c1997-544e-498e-9686-fe29299a8731.CAMFM67HBBUJWA9Y.SEARCH&ppt=hp&ppn=homepage&ssid=l3qtpmopf40000001679916943326'
+
+desired_price = 5000
+
+while True:
+    response = requests.get(url)
+    html_content = response.text
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    title_product = soup.find('span', class_='B_NuCI')
+
+    price_product = soup.find('div', class_='_30jeq3 _16Jk6d')
+
+    if title_product is not None:
+        title = title_product.text.strip()
+    else:
+        title = "Unknown"
+
+    if price_product is not None:
+        price = float(price_product.get_text().replace(",", "").replace("₹",""))
+    else:
+        price = 6698
+
+    print(f'Title: {title}')
+    print(f'Price: {price:.2f}')
+    print('--------------')
+
+    if price < desired_price:
+        print(f'price has dropped!!')
+
+    time.sleep(5)
