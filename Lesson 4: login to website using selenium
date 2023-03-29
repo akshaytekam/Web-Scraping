@@ -1,0 +1,37 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+
+
+username = "dummy"
+password = "dummy"
+
+
+url = "https://www.github.com/login"
+
+
+# this code allows you to launch a Chrome browser
+# instance with a specific set of options and capabilities,
+# and keeps the browser window open even after the webdriver instance is closed.
+chrome_options = Options()
+chrome_options.add_experimental_option("detach", True)
+driver = webdriver.Chrome(options=chrome_options)
+
+
+# use implicit waits to make the driver wait for elements to appear
+driver.implicitly_wait(2)
+
+
+driver.get(url)
+
+
+# use more specific selectors to locate elements
+driver.find_element(By.CSS_SELECTOR, 'input[name="login"]').send_keys(username)
+driver.find_element(By.CSS_SELECTOR, 'input[name="password"]').send_keys(password)
+driver.find_element(By.CSS_SELECTOR, 'input[type="submit"]').click()
+
+
+print('logged in successfully!!')
+
+
+driver.get("your end profile endpoint")
